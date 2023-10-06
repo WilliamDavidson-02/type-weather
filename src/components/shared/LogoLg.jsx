@@ -6,7 +6,7 @@ export default function LogoLg(props) {
   return (
     <img
       className={`${width} max-w-[170px]`}
-      src="../../../public/weather-logo-lg.svg"
+      src="/public/weather-logo-lg.svg"
       alt="type-weather"
     />
   );
