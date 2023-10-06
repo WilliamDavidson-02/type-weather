@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchContainer() {
   const [weatherSearch, setWeatherSearch] = useState("");
@@ -7,10 +8,11 @@ export default function SearchContainer() {
   const geoUrl = `https://api.geoapify.com/v1/geocode/autocomplete?format=json&type=city&lang=en&text=${weatherSearch}&apiKey=${
     import.meta.env.VITE_GEO_KEY
   }`;
+  const navigate = useNavigate();
 
   function handleWeatherSubmit(ev) {
     ev.preventDefault();
-    console.log({ weatherSearch });
+    navigate(`/weather/${weatherSearch}`);
   }
 
   function handleSearchChange(ev) {
