@@ -31,14 +31,14 @@ export default function SearchContainer() {
       onSubmit={handleWeatherSubmit}
     >
       <input
-        className=" bg-gray-600 text-gray-400 px-5 py-4 rounded-lg outline-none w-full max-w-[500px]"
+        className=" bg-gray-600 text-gray-400 px-5 py-4 rounded-lg outline-none w-full"
         value={weatherSearch}
         onChange={handleSearchChange}
         type="text"
         placeholder="Search location"
       />
-      {searchSuggestions.length > 0 && (
-        <div className="absolute w-full max-w-[500px] top-16 bg-gray-500 rounded-lg shadow-lg flex flex-col">
+      {searchSuggestions.length > 0 && weatherSearch.length > 0 && (
+        <div className="absolute w-full top-16 bg-gray-500 rounded-lg shadow-lg flex flex-col">
           {searchSuggestions.map((suggestion) => (
             <button
               type="submit"

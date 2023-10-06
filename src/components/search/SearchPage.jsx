@@ -17,7 +17,9 @@ export default function SearchPage() {
             Choose a location to see the weather forecast
           </p>
         </div>
-        <SearchContainer />
+        <div className="max-w-[500px] w-full">
+          <SearchContainer />
+        </div>
       </div>
     </main>
   );
