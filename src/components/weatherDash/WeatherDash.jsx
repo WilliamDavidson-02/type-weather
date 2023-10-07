@@ -7,7 +7,7 @@ import WeatherBg from "./WeatherBg";
 
 export default function WeatherDash() {
   const { city } = useParams();
-  const [weather, setWeather] = useState({});
+  const [weather, setWeather] = useState(null);
   const weatherUrl = `http://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
   }&q=${city}`;
@@ -31,7 +31,7 @@ export default function WeatherDash() {
           </a>
           <SearchContainer />
         </div>
-        <WeatherBg />
+        <WeatherBg weather={weather} />
       </div>
       <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-3 md:gap-5">
         <div className="h-2/3 bg-gray-800 rounded-lg"></div>
