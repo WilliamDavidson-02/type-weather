@@ -8,7 +8,7 @@ import WeatherBg from "./WeatherBg";
 export default function WeatherDash() {
   const { city } = useParams();
   const [weather, setWeather] = useState(null);
-  const weatherUrl = `http://api.weatherapi.com/v1/forecast.json?key=${
+  const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
   }&q=${city}`;
 
