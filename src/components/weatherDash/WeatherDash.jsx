@@ -31,7 +31,9 @@ export default function WeatherDash() {
           </a>
           <SearchContainer />
         </div>
-        <WeatherBg weather={weather} />
+        <div className="h-full w-full overflow-hidden">
+          <WeatherBg weather={weather} />
+        </div>
       </div>
       <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-3 md:gap-5">
         <div className="h-2/3 bg-gray-800 rounded-lg"></div>

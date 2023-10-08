@@ -62,13 +62,32 @@ export default function WeatherBg(props) {
         weatherType = "Clear";
       }
 
-      if (
-        currentTime.hours > sunRiseTime.hours &&
-        currentTime.hours < sunSetTime.hours
-      ) {
+      const currentDate = new Date(
+        2023,
+        10,
+        30,
+        currentTime.hours,
+        currentTime.minutes
+      );
+      const sunRiseDate = new Date(
+        2023,
+        10,
+        30,
+        sunRiseTime.hours,
+        sunRiseTime.minutes
+      );
+      const sunSetDate = new Date(
+        2023,
+        10,
+        30,
+        sunSetTime.hours,
+        sunSetTime.minutes
+      );
+
+      if (currentDate >= sunRiseDate && currentDate <= sunSetDate) {
         setWeatherBg(
           <img
-            className="rounded-lg h-full object-cover object-left"
+            className="rounded-lg h-full w-full object-cover object-left"
             src={`/bg/Weather=${weatherType}, Moment=Day.jpg`}
             alt={weatherType}
           />
@@ -76,7 +95,7 @@ export default function WeatherBg(props) {
       } else {
         setWeatherBg(
           <img
-            className="rounded-lg h-full object-cover object-left"
+            className="rounded-lg h-full w-full object-cover object-left"
             src={`/bg/Weather=${weatherType}, Moment=Night.jpg`}
             alt={weatherType}
           />
