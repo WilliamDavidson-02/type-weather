@@ -40,7 +40,12 @@ export default function WeatherBg(props) {
       const sunSetTime = convertTime(
         weather.forecast.forecastday[0].astro.sunset
       );
-      const currentTime = convertTime(new Date().toLocaleTimeString());
+      const currentTime = convertTime(
+        new Date(weather.location.localtime).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
 
       // https://www.weatherapi.com/docs/weather_conditions.json
       let weatherType = "";

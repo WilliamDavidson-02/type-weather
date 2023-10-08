@@ -1,16 +1,29 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SearchPage from "./components/search/SearchPage";
-import WeatherDash from "./components/weatherDash/WeatherDash";
+import ErrorPage from "./components/shared/ErrorPage";
+import Loading from "./components/shared/Loading";
+
+const WeatherDash = lazy(() => import("./components/weatherDash/WeatherDash"));
+const SearchPage = lazy(() => import("./components/search/SearchPage"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SearchPage />,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <SearchPage />
+      </Suspense>
+    ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "/weather/:city",
-    element: <WeatherDash />,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <WeatherDash />
+      </Suspense>
+    ),
+    errorElement: <ErrorPage />,
   },
 ]);
 
