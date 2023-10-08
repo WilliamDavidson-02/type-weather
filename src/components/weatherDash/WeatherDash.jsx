@@ -74,7 +74,7 @@ export default function WeatherDash() {
           </a>
           <SearchContainer />
         </div>
-        <div className="relative h-full w-full">
+        <div className="relative h-full w-full overflow-hidden">
           <div className="absolute top-0 w-full h-full p-5">
             <div className="h-full w-full flex justify-between">
               <div>
