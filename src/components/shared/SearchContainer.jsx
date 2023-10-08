@@ -12,7 +12,8 @@ export default function SearchContainer() {
 
   function handleWeatherSubmit(ev) {
     ev.preventDefault();
-    navigate(`/weather/${weatherSearch}`);
+    localStorage.setItem("weatherSearch", weatherSearch);
+    navigate(`/weather`);
   }
 
   function handleSearchChange(ev) {

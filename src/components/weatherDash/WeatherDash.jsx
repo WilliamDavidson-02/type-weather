@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import LogoSm from "../shared/LogoSm";
 import SearchContainer from "../shared/SearchContainer";
 import WeatherBg from "./WeatherBg";
@@ -8,12 +7,11 @@ import TitleH3 from "./TitleH3";
 import FullDateParagraph from "./FullDateParagraph";
 
 export default function WeatherDash() {
-  const { city } = useParams();
   const [weather, setWeather] = useState(null);
   const [localTime, setLocalTime] = useState("");
   const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
-  }&q=${city}`;
+  }&q=${localStorage.getItem("weatherSearch")}`;
 
   let localTimeInterval;
 

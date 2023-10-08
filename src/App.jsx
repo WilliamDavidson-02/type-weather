@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/weather/:city",
+    path: "/weather",
     element: (
       <Suspense fallback={<Loading />}>
         <WeatherDash />
