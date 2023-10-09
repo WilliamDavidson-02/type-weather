@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LogoSm from "../shared/LogoSm";
 import SearchContainer from "../shared/SearchContainer";
-import WeatherBg from "./WeatherBg";
 import TitleH3 from "./TitleH3";
 import FullDateParagraph from "./FullDateParagraph";
-import WeatherIcon from "./WeatherIcon";
+import WeatherLocalTimeImg from "./WeatherLocalTimeImg";
 
 export default function WeatherDash() {
   const { city } = useParams();
@@ -94,10 +93,20 @@ export default function WeatherDash() {
                   {weather?.current.condition.text}
                 </p>
               </div>
-              <WeatherIcon weather={weather} />
+              <WeatherLocalTimeImg
+                weather={weather}
+                folder={"/icons"}
+                imageStyling={"w-1/2 max-h-[200px] lg:max-h-[300px]"}
+                fileFormat={"svg"}
+              />
             </div>
           </div>
-          <WeatherBg weather={weather} />
+          <WeatherLocalTimeImg
+            weather={weather}
+            folder={"/bg"}
+            imageStyling={"rounded-lg h-full w-full object-cover object-left"}
+            fileFormat={"jpg"}
+          />
         </div>
       </div>
       <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-3 md:gap-5">

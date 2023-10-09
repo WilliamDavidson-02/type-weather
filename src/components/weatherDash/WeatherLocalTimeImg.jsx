@@ -1,18 +1,35 @@
 import { useEffect, useState } from "react";
-import { weatherCodes } from "../shared/WeatherCodes";
-import { convertTime } from "../shared/TimeConverter";
 
-export default function WeatherBg(props) {
-  const {
-    clearWeatherCodes,
-    fewCloudsWeatherCodes,
-    cloudyWeatherCodes,
-    rainyWeatherCodes,
-    stormyWeatherCodes,
-    snowyWeatherCodes,
-  } = weatherCodes;
-  const { weather } = props;
-  const [weatherBg, setWeatherBg] = useState(null);
+export default function WeatherLocalTimeImg(props) {
+  const clearWeatherCodes = [1000];
+  const fewCloudsWeatherCodes = [1003];
+  const cloudyWeatherCodes = [1006, 1009, 1030, 1135, 1147];
+  const rainyWeatherCodes = [
+    1063, 1150, 1153, 1168, 1180, 1183, 1186, 1189, 1198, 1240, 1243, 1246,
+    1276,
+  ];
+  const stormyWeatherCodes = [1087, 1171, 1192, 1195, 1201, 1207, 1273];
+  const snowyWeatherCodes = [
+    1066, 1069, 1072, 1114, 1117, 1204, 1210, 1213, 1216, 1219, 1222, 1225,
+    1237, 1249, 1252, 1255, 1258, 1261, 1264, 1279, 1282,
+  ];
+
+  const { weather, imageStyling, folder, fileFormat } = props;
+  const [weatherImage, setWeatherImage] = useState(null);
+
+  function convertTime(timeString) {
+    const [time, period] = timeString.split(" ");
+    const [hours, minutes] = time.split(":");
+    let hours24 = parseInt(hours, 10);
+
+    if (period === "PM" && hours24 !== 12) {
+      hours24 += 12;
+    } else if (period === "AM" && hours24 === 12) {
+      hours24 = 0;
+    }
+
+    return { hours: hours24, minutes: parseInt(minutes, 10) };
+  }
 
   useEffect(() => {
     if (weather !== null) {
@@ -36,7 +53,7 @@ export default function WeatherBg(props) {
       if (clearWeatherCodes.includes(code)) {
         weatherType = "Clear";
       } else if (fewCloudsWeatherCodes.includes(code)) {
-        weatherType = "Few Clouds";
+        weatherType = "Few clouds";
       } else if (cloudyWeatherCodes.includes(code)) {
         weatherType = "Cloudy";
       } else if (rainyWeatherCodes.includes(code)) {
@@ -72,18 +89,18 @@ export default function WeatherBg(props) {
       );
 
       if (currentDate >= sunRiseDate && currentDate <= sunSetDate) {
-        setWeatherBg(
+        setWeatherImage(
           <img
-            className="rounded-lg h-full w-full object-cover object-left"
-            src={`/bg/Weather=${weatherType}, Moment=Day.jpg`}
+            className={imageStyling}
+            src={`${folder}/Weather=${weatherType}, Moment=Day.${fileFormat}`}
             alt={weatherType}
           />
         );
       } else {
-        setWeatherBg(
+        setWeatherImage(
           <img
-            className="rounded-lg h-full w-full object-cover object-left"
-            src={`/bg/Weather=${weatherType}, Moment=Night.jpg`}
+            className={imageStyling}
+            src={`${folder}/Weather=${weatherType}, Moment=Night.${fileFormat}`}
             alt={weatherType}
           />
         );
@@ -91,5 +108,5 @@ export default function WeatherBg(props) {
     }
   }, [weather]);
 
-  return <>{weatherBg}</>;
+  return <>{weatherImage}</>;
 }
