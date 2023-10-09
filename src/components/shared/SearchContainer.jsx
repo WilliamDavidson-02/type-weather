@@ -12,7 +12,10 @@ export default function SearchContainer() {
 
   function handleWeatherSubmit(ev) {
     ev.preventDefault();
-    navigate(`/weather/${weatherSearch}`);
+    // Clearing weather search so the suggestions go away and input is cleared for next search, but the weatherSearch still needs to be sent in the path.
+    const sendOfWeather = weatherSearch;
+    setWeatherSearch("");
+    navigate(`/weather/${sendOfWeather}`);
   }
 
   function handleSearchChange(ev) {
@@ -39,7 +42,7 @@ export default function SearchContainer() {
         placeholder="Search location"
       />
       {searchSuggestions.length > 0 && weatherSearch.length > 0 && (
-        <div className="absolute w-full top-16 bg-gray-500 rounded-lg shadow-lg flex flex-col">
+        <div className="absolute w-full top-16 bg-gray-500 rounded-lg shadow-lg flex flex-col z-50">
           {searchSuggestions.map((suggestion) => (
             <button
               type="submit"

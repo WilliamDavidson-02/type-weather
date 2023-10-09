@@ -16,44 +16,41 @@ export default function WeatherDash() {
   }&q=${city}`;
 
   let localTimeInterval;
+  let initialMinute = true;
 
   useEffect(() => {
     axios
       .get(weatherUrl)
       .then((response) => {
         setWeather(response.data);
+        initialMinute = true;
         handleLocalTime(response.data.location.localtime.split(" ")[1]);
         console.log(response.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+
+    return () => {
+      clearInterval(localTimeInterval);
+      initialMinute = true;
+    };
+  }, [city]);
 
   function handleLocalTime(time) {
-    const [hour, minutes] = time.split(":");
-    // Using local time minutes because the weather apis local time is not correct in minutes.
-    let updateMinutes = parseInt(
-      new Date().toLocaleTimeString([], { minute: "2-digit" }),
-      10
-    );
-    let updateHour = parseInt(hour, 10);
-
-    updateMinutes += localTime !== "" ? 1 : 0;
-
-    if (updateMinutes >= 60) {
-      updateHour = updateHour + 1 === 24 ? 0 : updateHour + 1;
-      updateMinutes = 0;
-    }
-
     const secOffset = parseInt(
       new Date().toLocaleTimeString([], { second: "2-digit" }),
       10
     );
 
-    // Add to digit to one digit number + convert int to string
-    updateMinutes = updateMinutes <= 9 ? `0${updateMinutes}` : updateMinutes;
-    updateHour = updateHour <= 9 ? `0${updateHour}` : updateHour;
+    const hour = time.split(":", 1);
 
-    time = `${updateHour}:${updateMinutes}`;
+    // Using local time minutes because the weather apis local time is not correct in minutes.
+    let updateMinutes = parseInt(
+      new Date().toLocaleTimeString([], { minute: "2-digit" }),
+      10
+    );
+    updateMinutes = updateMinutes <= 9 ? `0${updateMinutes}` : updateMinutes;
+
+    time = `${hour}:${updateMinutes}`;
 
     setLocalTime(time);
 
@@ -63,6 +60,8 @@ export default function WeatherDash() {
       () => handleLocalTime(time),
       60000 - secOffset * 1000
     );
+
+    initialMinute = false;
   }
 
   return (
@@ -85,9 +84,15 @@ export default function WeatherDash() {
             </div>
             <div className="w-full flex justify-between">
               <div className="w-1/2 flex flex-col justify-end">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[120%]">{`${weather?.current.temp_c}ºc`}</h1>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[120%]">{`${Math.floor(
+                  weather?.current.temp_c
+                )}ºc`}</h1>
                 <TitleH3
-                  title={`${weather?.forecast.forecastday[0].day.mintemp_c}ºc / ${weather?.forecast.forecastday[0].day.maxtemp_c}ºc`}
+                  title={`${Math.floor(
+                    weather?.forecast.forecastday[0].day.mintemp_c
+                  )}ºc / ${Math.floor(
+                    weather?.forecast.forecastday[0].day.maxtemp_c
+                  )}ºc`}
                 />
                 <p className="md:text-lg lg:text-xl">
                   {weather?.current.condition.text}
