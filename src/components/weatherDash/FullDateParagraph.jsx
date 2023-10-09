@@ -41,5 +41,5 @@ export default function FullDateParagraph(props) {
     }
   }, [weather]);
 
-  return <p>{localDate}</p>;
+  return <p className="md:text-lg lg:text-xl">{localDate}</p>;
 }

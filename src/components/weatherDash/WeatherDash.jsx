@@ -1,17 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import LogoSm from "../shared/LogoSm";
 import SearchContainer from "../shared/SearchContainer";
 import WeatherBg from "./WeatherBg";
 import TitleH3 from "./TitleH3";
 import FullDateParagraph from "./FullDateParagraph";
+import WeatherIcon from "./WeatherIcon";
 
 export default function WeatherDash() {
+  const { city } = useParams();
   const [weather, setWeather] = useState(null);
   const [localTime, setLocalTime] = useState("");
   const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
-  }&q=${localStorage.getItem("weatherSearch")}`;
+  }&q=${city}`;
 
   let localTimeInterval;
 
@@ -73,13 +76,25 @@ export default function WeatherDash() {
           <SearchContainer />
         </div>
         <div className="relative h-full w-full overflow-hidden">
-          <div className="absolute top-0 w-full h-full p-5">
-            <div className="h-full w-full flex justify-between">
+          <div className="absolute top-0 w-full h-full p-5 flex flex-col justify-between">
+            <div className="w-full flex justify-between">
               <div>
                 <TitleH3 title={weather?.location.name} />
                 <FullDateParagraph weather={weather} />
               </div>
               <TitleH3 title={localTime} />
+            </div>
+            <div className="w-full flex justify-between">
+              <div className="w-1/2 flex flex-col justify-end">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[120%]">{`${weather?.current.temp_c}ºc`}</h1>
+                <TitleH3
+                  title={`${weather?.forecast.forecastday[0].day.mintemp_c}ºc / ${weather?.forecast.forecastday[0].day.maxtemp_c}ºc`}
+                />
+                <p className="md:text-lg lg:text-xl">
+                  {weather?.current.condition.text}
+                </p>
+              </div>
+              <WeatherIcon weather={weather} />
             </div>
           </div>
           <WeatherBg weather={weather} />

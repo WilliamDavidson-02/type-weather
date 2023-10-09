@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { weatherCodes } from "../shared/WeatherCodes";
 import { convertTime } from "../shared/TimeConverter";
 
-export default function WeatherBg(props) {
+export default function WeatherIcon(props) {
   const {
     clearWeatherCodes,
     fewCloudsWeatherCodes,
@@ -12,7 +12,7 @@ export default function WeatherBg(props) {
     snowyWeatherCodes,
   } = weatherCodes;
   const { weather } = props;
-  const [weatherBg, setWeatherBg] = useState(null);
+  const [weatherIcon, setWeatherIcon] = useState(null);
 
   useEffect(() => {
     if (weather !== null) {
@@ -36,7 +36,7 @@ export default function WeatherBg(props) {
       if (clearWeatherCodes.includes(code)) {
         weatherType = "Clear";
       } else if (fewCloudsWeatherCodes.includes(code)) {
-        weatherType = "Few Clouds";
+        weatherType = "Few clouds";
       } else if (cloudyWeatherCodes.includes(code)) {
         weatherType = "Cloudy";
       } else if (rainyWeatherCodes.includes(code)) {
@@ -71,19 +71,21 @@ export default function WeatherBg(props) {
         sunSetTime.minutes
       );
 
+      console.log(`/icons/Weather=${weatherType}, Moment=Night.svg`);
+
       if (currentDate >= sunRiseDate && currentDate <= sunSetDate) {
-        setWeatherBg(
+        setWeatherIcon(
           <img
-            className="rounded-lg h-full w-full object-cover object-left"
-            src={`/bg/Weather=${weatherType}, Moment=Day.jpg`}
+            className="w-1/2 max-h-[200px] lg:max-h-[300px]"
+            src={`/icons/Weather=${weatherType}, Moment=Day.svg`}
             alt={weatherType}
           />
         );
       } else {
-        setWeatherBg(
+        setWeatherIcon(
           <img
-            className="rounded-lg h-full w-full object-cover object-left"
-            src={`/bg/Weather=${weatherType}, Moment=Night.jpg`}
+            className="w-1/2 max-h-[200px] lg:max-h-[300px]"
+            src={`/icons/Weather=${weatherType}, Moment=Night.svg`}
             alt={weatherType}
           />
         );
@@ -91,5 +93,5 @@ export default function WeatherBg(props) {
     }
   }, [weather]);
 
-  return <>{weatherBg}</>;
+  return <>{weatherIcon}</>;
 }

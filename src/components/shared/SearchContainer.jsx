@@ -12,8 +12,7 @@ export default function SearchContainer() {
 
   function handleWeatherSubmit(ev) {
     ev.preventDefault();
-    localStorage.setItem("weatherSearch", weatherSearch);
-    navigate(`/weather`);
+    navigate(`/weather/${weatherSearch}`);
   }
 
   function handleSearchChange(ev) {
@@ -32,6 +31,7 @@ export default function SearchContainer() {
       onSubmit={handleWeatherSubmit}
     >
       <input
+        autoFocus
         className=" bg-gray-600 text-gray-400 px-5 py-4 rounded-lg outline-none w-full"
         value={weatherSearch}
         onChange={handleSearchChange}
