@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/shared/ErrorPage";
 import Loading from "./components/shared/Loading";
+import Settings from "./components/shared/Settings";
 
 const WeatherDash = lazy(() => import("./components/weatherDash/WeatherDash"));
 const SearchPage = lazy(() => import("./components/search/SearchPage"));
@@ -21,6 +22,15 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <WeatherDash />
+      </Suspense>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/settings",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Settings />
       </Suspense>
     ),
     errorElement: <ErrorPage />,

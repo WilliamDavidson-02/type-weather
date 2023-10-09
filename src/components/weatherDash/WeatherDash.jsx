@@ -6,33 +6,38 @@ import SearchContainer from "../shared/SearchContainer";
 import TitleH3 from "./TitleH3";
 import FullDateParagraph from "./FullDateParagraph";
 import WeatherLocalTimeImg from "./WeatherLocalTimeImg";
+import IconBtn from "../shared/IconBtn";
+import SettingsIcon from "../shared/SettingsIcon";
 
 export default function WeatherDash() {
   const { city } = useParams();
   const [weather, setWeather] = useState(null);
   const [localTime, setLocalTime] = useState("");
+  const [pageWidth, setPageWidth] = useState(window.innerWidth);
   const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
   }&q=${city}`;
 
   let localTimeInterval;
-  let initialMinute = true;
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setPageWidth(window.innerWidth));
+
+    return () =>
+      window.removeEventListener("resize", () =>
+        setPageWidth(window.innerWidth)
+      );
+  }, [pageWidth]);
 
   useEffect(() => {
     axios
       .get(weatherUrl)
       .then((response) => {
         setWeather(response.data);
-        initialMinute = true;
         handleLocalTime(response.data.location.localtime.split(" ")[1]);
         console.log(response.data);
       })
       .catch((err) => console.log(err));
-
-    return () => {
-      clearInterval(localTimeInterval);
-      initialMinute = true;
-    };
   }, [city]);
 
   function handleLocalTime(time) {
@@ -60,21 +65,18 @@ export default function WeatherDash() {
       () => handleLocalTime(time),
       60000 - secOffset * 1000
     );
-
-    initialMinute = false;
   }
 
   return (
     <main className="w-full h-full p-3 md:p-5 flex flex-col lg:flex-row gap-3 md:gap-5">
-      <div className="h-1/2 lg:h-full w-full lg:w-1/2 bg-gray-800 rounded-lg p-3 flex flex-col gap-3">
+      <div className="lg:h-full w-full lg:w-1/2 bg-gray-800 rounded-lg p-3 flex flex-col gap-3">
         <div className="flex gap-3">
-          <a className="p-4 bg-gray-600 rounded-lg" href="/">
-            <LogoSm />
-          </a>
+          <IconBtn icon={<LogoSm />} href={"/"} />
           <SearchContainer />
+          <IconBtn icon={<SettingsIcon />} href={"/settings"} />
         </div>
         <div className="relative h-full w-full overflow-hidden">
-          <div className="absolute top-0 w-full h-full p-5 flex flex-col justify-between">
+          <div className="absolute top-0 w-full h-full p-5 md:p-10 flex flex-col justify-between">
             <div className="w-full flex justify-between">
               <div>
                 <TitleH3 title={weather?.location.name} />
