@@ -5,9 +5,7 @@ import SearchContainer from "../shared/SearchContainer";
 export default function SearchPage() {
   return (
     <main className="w-full h-full grid grid-rows-3">
-      <div className="w-full flex justify-center items-start pt-12">
-        <LogoLg width={"w-1/2"} />
-      </div>
+      <LogoLg width={"w-1/2"} />
       <div className="w-[90%] mx-auto row-span-2 flex flex-col items-center gap-8">
         <div className="flex flex-col">
           <h1 className="m-0 text-gray-100 text-center text-xl md:text-3xl font-bold leading-7">
