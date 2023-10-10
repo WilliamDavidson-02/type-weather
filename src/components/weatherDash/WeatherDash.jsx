@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LogoSm from "../shared/LogoSm";
 import SearchContainer from "../shared/SearchContainer";
@@ -8,24 +8,18 @@ import FullDateParagraph from "./FullDateParagraph";
 import WeatherLocalTimeImg from "./WeatherLocalTimeImg";
 import IconBtn from "../shared/IconBtn";
 import SettingsIcon from "../shared/SettingsIcon";
+import { SettingsContext } from "../context/SettingsContext";
 
 export default function WeatherDash() {
+  const { settings } = useContext(SettingsContext);
   const { city } = useParams();
   const [weather, setWeather] = useState(null);
   const [localTime, setLocalTime] = useState("");
-  const [pageWidth, setPageWidth] = useState(window.innerWidth);
   const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
   }&q=${city}`;
 
   let localTimeInterval;
-
-  useEffect(() => {
-    if (!localStorage.getItem("type-weather-settings"))
-      localStorage.setItem(
-        JSON.stringify({ celsius: true, hour24: true, kph: true })
-      );
-  }, []);
 
   useEffect(() => {
     axios
@@ -84,15 +78,29 @@ export default function WeatherDash() {
             </div>
             <div className="w-full flex justify-between">
               <div className="w-1/2 flex flex-col justify-end">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[120%]">{`${Math.floor(
-                  weather?.current.temp_c
-                )}ºc`}</h1>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[120%]">
+                  {settings.celsius
+                    ? `${Math.floor(weather?.current.temp_c)}ºc`
+                    : `${Math.floor(weather?.current.temp_f)}ºf`}
+                </h1>
                 <TitleH3
-                  title={`${Math.floor(
-                    weather?.forecast.forecastday[0].day.mintemp_c
-                  )}ºc / ${Math.floor(
-                    weather?.forecast.forecastday[0].day.maxtemp_c
-                  )}ºc`}
+                  title={`${
+                    settings.celsius
+                      ? `${Math.floor(
+                          weather?.forecast.forecastday[0].day.mintemp_c
+                        )}ºc`
+                      : `${Math.floor(
+                          weather?.forecast.forecastday[0].day.mintemp_f
+                        )}ºf`
+                  } / ${
+                    settings.celsius
+                      ? `${Math.floor(
+                          weather?.forecast.forecastday[0].day.maxtemp_c
+                        )}ºc`
+                      : `${Math.floor(
+                          weather?.forecast.forecastday[0].day.maxtemp_f
+                        )}ºf`
+                  }`}
                 />
                 <p className="md:text-lg lg:text-xl">
                   {weather?.current.condition.text}
