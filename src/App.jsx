@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/shared/ErrorPage";
 import Loading from "./components/shared/Loading";
 import Settings from "./components/shared/Settings";
+import { SettingsProvide } from "./components/context/SettingsContext";
 
 const WeatherDash = lazy(() => import("./components/weatherDash/WeatherDash"));
 const SearchPage = lazy(() => import("./components/search/SearchPage"));
@@ -40,7 +41,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="bg-gray-900 h-screen w-screen text-white">
-      <RouterProvider router={router} />
+      <SettingsProvide>
+        <RouterProvider router={router} />
+      </SettingsProvide>
     </div>
   );
 }

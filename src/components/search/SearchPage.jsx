@@ -1,6 +1,8 @@
 import React from "react";
 import LogoLg from "../shared/LogoLg";
 import SearchContainer from "../shared/SearchContainer";
+import IconBtn from "../shared/IconBtn";
+import SettingsIcon from "../shared/SettingsIcon";
 
 export default function SearchPage() {
   return (
@@ -15,7 +17,8 @@ export default function SearchPage() {
             Choose a location to see the weather forecast
           </p>
         </div>
-        <div className="max-w-[500px] w-full">
+        <div className="max-w-[500px] w-full flex gap-2">
+          <IconBtn icon={<SettingsIcon />} href={"/settings"} />
           <SearchContainer />
         </div>
       </div>

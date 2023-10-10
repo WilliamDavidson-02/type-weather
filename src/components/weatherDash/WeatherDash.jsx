@@ -21,13 +21,11 @@ export default function WeatherDash() {
   let localTimeInterval;
 
   useEffect(() => {
-    window.addEventListener("resize", () => setPageWidth(window.innerWidth));
-
-    return () =>
-      window.removeEventListener("resize", () =>
-        setPageWidth(window.innerWidth)
+    if (!localStorage.getItem("type-weather-settings"))
+      localStorage.setItem(
+        JSON.stringify({ celsius: true, hour24: true, kph: true })
       );
-  }, [pageWidth]);
+  }, []);
 
   useEffect(() => {
     axios
@@ -70,7 +68,7 @@ export default function WeatherDash() {
   return (
     <main className="w-full h-full p-3 md:p-5 flex flex-col lg:flex-row gap-3 md:gap-5">
       <div className="lg:h-full w-full lg:w-1/2 bg-gray-800 rounded-lg p-3 flex flex-col gap-3">
-        <div className="flex gap-3">
+        <div className="flex gap-3 max-w-full">
           <IconBtn icon={<LogoSm />} href={"/"} />
           <SearchContainer />
           <IconBtn icon={<SettingsIcon />} href={"/settings"} />

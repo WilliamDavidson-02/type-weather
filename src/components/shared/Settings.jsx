@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import LogoLg from "./LogoLg";
 import ToggleBtn from "./ToggleBtn";
+import { SettingsContext } from "../context/SettingsContext";
 
 export default function Settings() {
-  const [settings, setSettings] = useState({
-    celsius: true,
-    hour24: true,
-    kph: true,
-  });
-
-  useEffect(() => {
-    if (localStorage.getItem("type-weather-settings")) {
-      setSettings(JSON.parse(localStorage.getItem("type-weather-settings")));
-    } else {
-      localStorage.setItem("type-weather-settings", JSON.stringify(settings));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("type-weather-settings", JSON.stringify(settings));
-  }, [settings]);
+  const { settings, setSettings } = useContext(SettingsContext);
 
   return (
     <div className="w-screen h-screen bg-gray-900 flex flex-col gap-10 items-center">
@@ -32,6 +17,7 @@ export default function Settings() {
           <ToggleBtn
             toToggle={Object.keys(settings)[0]}
             setToToggle={setSettings}
+            initialToggle={settings.celsius}
           />
         </div>
         <div className="p-3 bg-gray-600 rounded-lg">
@@ -41,6 +27,7 @@ export default function Settings() {
           <ToggleBtn
             toToggle={Object.keys(settings)[1]}
             setToToggle={setSettings}
+            initialToggle={settings.hour24}
           />
         </div>
         <div className="p-3 bg-gray-600 rounded-lg">
@@ -50,6 +37,7 @@ export default function Settings() {
           <ToggleBtn
             toToggle={Object.keys(settings)[2]}
             setToToggle={setSettings}
+            initialToggle={settings.kph}
           />
         </div>
       </div>
