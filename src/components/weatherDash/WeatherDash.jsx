@@ -26,19 +26,27 @@ export default function WeatherDash() {
       .get(weatherUrl)
       .then((response) => {
         setWeather(response.data);
-        handleLocalTime(response.data.location.localtime.split(" ")[1]);
+        handleLocalTime(
+          response.data.location.localtime.split(" ")[1],
+          response.data.location.localtime
+        );
         console.log(response.data);
       })
       .catch((err) => console.log(err));
   }, [city]);
 
-  function handleLocalTime(time) {
+  function handleLocalTime(time, date) {
     const secOffset = parseInt(
       new Date().toLocaleTimeString([], { second: "2-digit" }),
       10
     );
 
-    const hour = time.split(":", 1);
+    // 12h am/pm
+    const [time12, hourType] = new Date(date)
+      .toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+      .split(" ");
+
+    const hour = settings.hour24 ? time.split(":", 1) : time12.split(":", 1);
 
     // Using local time minutes because the weather apis local time is not correct in minutes.
     let updateMinutes = parseInt(
@@ -47,14 +55,16 @@ export default function WeatherDash() {
     );
     updateMinutes = updateMinutes <= 9 ? `0${updateMinutes}` : updateMinutes;
 
-    time = `${hour}:${updateMinutes}`;
+    time = settings.hour24
+      ? `${hour}:${updateMinutes}`
+      : `${hour}:${updateMinutes} ${hourType}`;
 
     setLocalTime(time);
 
     clearInterval(localTimeInterval);
 
     localTimeInterval = setInterval(
-      () => handleLocalTime(time),
+      () => handleLocalTime(time, date),
       60000 - secOffset * 1000
     );
   }
