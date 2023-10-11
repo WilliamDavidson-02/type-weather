@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchContainer() {
   const [weatherSearch, setWeatherSearch] = useState("");
-  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const searchSuggestions = useRef([]);
   const geoUrl = `https://api.geoapify.com/v1/geocode/autocomplete?format=json&type=city&lang=en&text=${weatherSearch}&apiKey=${
     import.meta.env.VITE_GEO_KEY
   }`;
   const navigate = useNavigate();
+
+  let arrowTracker = -1;
 
   function handleWeatherSubmit(ev) {
     ev.preventDefault();
@@ -23,10 +25,38 @@ export default function SearchContainer() {
     if (weatherSearch.length >= 2) {
       axios
         .get(geoUrl)
-        .then((response) => setSearchSuggestions([...response.data.results]))
+        .then(
+          (response) => (searchSuggestions.current = [...response.data.results])
+        )
         .catch((err) => console.log(err));
     }
   }
+
+  function handleKeyInput(ev) {
+    if (searchSuggestions.current.length > 0) {
+      if (ev.key === "ArrowDown") {
+        arrowTracker++;
+        if (arrowTracker > searchSuggestions.current.length - 1) {
+          arrowTracker = 0;
+        }
+        setWeatherSearch(searchSuggestions.current[arrowTracker].address_line1);
+      } else if (ev.key === "ArrowUp") {
+        arrowTracker--;
+        if (arrowTracker < 0) {
+          arrowTracker = searchSuggestions.current.length - 1;
+        }
+        setWeatherSearch(searchSuggestions.current[arrowTracker].address_line1);
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyInput);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyInput);
+    };
+  }, []);
 
   return (
     <form
@@ -41,9 +71,9 @@ export default function SearchContainer() {
         type="text"
         placeholder="Search location"
       />
-      {searchSuggestions.length > 0 && weatherSearch.length > 0 && (
+      {searchSuggestions.current.length > 0 && weatherSearch.length > 0 && (
         <div className="absolute w-full top-16 bg-gray-500 rounded-lg shadow-lg flex flex-col z-50">
-          {searchSuggestions.map((suggestion) => (
+          {searchSuggestions.current.map((suggestion) => (
             <button
               type="submit"
               onClick={() => setWeatherSearch(suggestion.address_line1)}

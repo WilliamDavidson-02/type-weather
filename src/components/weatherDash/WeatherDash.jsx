@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import LogoSm from "../shared/LogoSm";
 import SearchContainer from "../shared/SearchContainer";
 import TitleH3 from "./TitleH3";
@@ -13,6 +13,7 @@ import { SettingsContext } from "../context/SettingsContext";
 export default function WeatherDash() {
   const { settings } = useContext(SettingsContext);
   const { city } = useParams();
+  const navigate = useNavigate();
   const [weather, setWeather] = useState(null);
   const [localTime, setLocalTime] = useState("");
   const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
@@ -32,7 +33,7 @@ export default function WeatherDash() {
         );
         console.log(response.data);
       })
-      .catch((err) => console.log(err));
+      .catch(() => navigate("/"));
   }, [city]);
 
   function handleLocalTime(time, date) {
