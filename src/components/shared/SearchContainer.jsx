@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 export default function SearchContainer() {
   const [weatherSearch, setWeatherSearch] = useState("");
   const searchSuggestions = useRef([]);
+  const arrowTracker = useRef(-1);
   const geoUrl = `https://api.geoapify.com/v1/geocode/autocomplete?format=json&type=city&lang=en&text=${weatherSearch}&apiKey=${
     import.meta.env.VITE_GEO_KEY
   }`;
   const navigate = useNavigate();
-
-  let arrowTracker = -1;
 
   function handleWeatherSubmit(ev) {
     ev.preventDefault();
@@ -35,17 +34,21 @@ export default function SearchContainer() {
   function handleKeyInput(ev) {
     if (searchSuggestions.current.length > 0) {
       if (ev.key === "ArrowDown") {
-        arrowTracker++;
-        if (arrowTracker > searchSuggestions.current.length - 1) {
-          arrowTracker = 0;
+        arrowTracker.current++;
+        if (arrowTracker.current > searchSuggestions.current.length - 1) {
+          arrowTracker.current = 0;
         }
-        setWeatherSearch(searchSuggestions.current[arrowTracker].address_line1);
+        setWeatherSearch(
+          searchSuggestions.current[arrowTracker.current].address_line1
+        );
       } else if (ev.key === "ArrowUp") {
-        arrowTracker--;
-        if (arrowTracker < 0) {
-          arrowTracker = searchSuggestions.current.length - 1;
+        arrowTracker.current--;
+        if (arrowTracker.current < 0) {
+          arrowTracker.current = searchSuggestions.current.length - 1;
         }
-        setWeatherSearch(searchSuggestions.current[arrowTracker].address_line1);
+        setWeatherSearch(
+          searchSuggestions.current[arrowTracker.current].address_line1
+        );
       }
     }
   }
@@ -73,11 +76,13 @@ export default function SearchContainer() {
       />
       {searchSuggestions.current.length > 0 && weatherSearch.length > 0 && (
         <div className="absolute w-full top-16 bg-gray-500 rounded-lg shadow-lg flex flex-col z-50">
-          {searchSuggestions.current.map((suggestion) => (
+          {searchSuggestions.current.map((suggestion, index) => (
             <button
               type="submit"
               onClick={() => setWeatherSearch(suggestion.address_line1)}
-              className="cursor-pointer hover:bg-gray-400 transition duration-300 first:rounded-t-lg last:rounded-b-lg px-5 py-4 border border-transparent border-b-gray-900 text-gray-100 text-start outline-none"
+              className={`${
+                arrowTracker.current === index ? "bg-gray-400" : ""
+              } cursor-pointer hover:bg-gray-400 transition duration-300 first:rounded-t-lg last:rounded-b-lg px-5 py-4 border border-transparent border-b-gray-900 text-gray-100 text-start outline-none`}
               key={suggestion.place_id}
             >
               {suggestion.address_line1}

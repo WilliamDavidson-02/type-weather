@@ -9,6 +9,7 @@ import WeatherLocalTimeImg from "./WeatherLocalTimeImg";
 import IconBtn from "../shared/IconBtn";
 import SettingsIcon from "../shared/SettingsIcon";
 import { SettingsContext } from "../context/SettingsContext";
+import { WeatherInfoList } from "./WeatherInfoList";
 
 export default function WeatherDash() {
   const { settings } = useContext(SettingsContext);
@@ -134,7 +135,9 @@ export default function WeatherDash() {
         </div>
       </div>
       <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-3 md:gap-5">
-        <div className="h-2/3 bg-gray-800 rounded-lg"></div>
+        <div className="bg-gray-800 rounded-lg flex flex-col px-3 py-1">
+          <WeatherInfoList weather={weather} localTime={localTime} />
+        </div>
         <div className="h-1/3 bg-gray-800 rounded-lg"></div>
       </div>
     </main>
