@@ -6,7 +6,7 @@ import SettingsIcon from "../shared/SettingsIcon";
 
 export default function SearchPage() {
   return (
-    <main className="w-full h-full grid grid-rows-3">
+    <main className="w-full h-screen grid grid-rows-3">
       <LogoLg width={"w-1/2"} />
       <div className="w-[90%] mx-auto row-span-2 flex flex-col items-center gap-8">
         <div className="flex flex-col">
