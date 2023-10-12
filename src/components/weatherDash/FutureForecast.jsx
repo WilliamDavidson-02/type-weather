@@ -8,7 +8,25 @@ export default function FutureForecast(props) {
   const [dayName, setDayName] = useState("");
   const [maxTemp, setMaxTemp] = useState("");
   const [minTemp, setMinTemp] = useState("");
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const [condition, setCondition] = useState("");
+  const [width, setWidth] = useState(window.innerWidth);
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+
+    return () => {
+      window.removeEventListener("resize", () => setWidth(window.innerWidth));
+    };
+  }, []);
 
   useEffect(() => {
     if (weather !== null) {
@@ -27,21 +45,30 @@ export default function FutureForecast(props) {
           ? `${Math.floor(day.mintemp_c)}ºc`
           : `${Math.floor(day.mintemp_f)}ºf`
       );
+
+      setCondition(day.condition.text);
     }
   }, [weather]);
 
   return (
     <div className="flex flex-col items-center">
-      <span>{dayName}</span>
+      <span className="font-bold lg:text-xl">
+        {width < 1024 ? dayName.substring(0, 3) : dayName}
+      </span>
       <WeatherLocalTimeImg
         weather={weather}
         dayIndex={dayIndex}
         folder={"/icons"}
-        imageStyling={"w-1/2 max-h-[200px] lg:max-h-[300px]"}
+        imageStyling={"w-1/2 lg:w-[200px] max-h-[200px] max-h-[300px]"}
         fileFormat={"svg"}
       />
-      <span>{maxTemp}</span>
-      <span>{minTemp}</span>
+      {width >= 1024 && (
+        <span className="text-gray-200 text-lg">{condition}</span>
+      )}
+      <div className="flex flex-col lg:flex-row lg:gap-4 font-bold lg:text-lg">
+        <span>{maxTemp}</span>
+        <span className="text-gray-400">{minTemp}</span>
+      </div>
     </div>
   );
 }
