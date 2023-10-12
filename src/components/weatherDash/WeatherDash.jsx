@@ -72,7 +72,7 @@ export default function WeatherDash() {
   }
 
   return (
-    <main className="w-full h-full p-3 md:p-5 flex flex-col lg:flex-row gap-3 md:gap-5">
+    <main className="bg-gray-900 w-full h-full p-3 md:p-5 flex flex-col lg:flex-row gap-3 md:gap-5">
       <div className="lg:h-full w-full lg:w-1/2 bg-gray-800 rounded-lg p-3 flex flex-col gap-3">
         <div className="flex gap-3 max-w-full">
           <IconBtn icon={<LogoSm />} href={"/"} />
@@ -140,7 +140,7 @@ export default function WeatherDash() {
         <div className="bg-gray-800 rounded-lg px-3 py-1 lg:h-2/3">
           <WeatherInfoList weather={weather} localTime={localTime} />
         </div>
-        <div className="bg-gray-800 rounded-lg flex justify-around p-3 lg:h-1/3 lg:items-center">
+        <div className="bg-gray-800 rounded-lg flex justify-around px-3 py-6 lg:h-1/3 lg:items-center">
           <FutureForecast weather={weather} dayIndex={1} />
           <FutureForecast weather={weather} dayIndex={2} />
         </div>

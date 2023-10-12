@@ -40,7 +40,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="bg-gray-900 min-h-screen lg:h-screen max-w-screen text-white">
+    <div className="bg-gray-900 min-h-screen h-full max-w-screen text-white">
       <SettingsProvide>
         <RouterProvider router={router} />
       </SettingsProvide>
