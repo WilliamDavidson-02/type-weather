@@ -30,51 +30,65 @@ export function WeatherInfoList(props) {
     }
 
     return (
-      <div>
-        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between">
+      <div className="flex flex-col justify-around h-full lg:px-10">
+        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/public/icons/temp.svg" alt="" />
-            <span className="text-gray-200 font-bold">Thermal sensation</span>
+            <img className="lg:w-10 lg:h-10" src="/icons/temp.svg" alt="temp" />
+            <span className="text-gray-200 font-bold lg:text-xl">
+              Thermal sensation
+            </span>
           </div>
-          <span className="text-gray-100 font-bold">
+          <span className="text-gray-100 font-bold lg:text-xl">
             {settings.celsius
               ? `${Math.floor(feelslike_c)}ºc`
               : `${Math.floor(feelslike_f)}ºf`}
           </span>
         </div>
-        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between">
+        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/public/icons/rain.svg" alt="" />
-            <span className="text-gray-200 font-bold">Probability of rain</span>
+            <img className="lg:w-10 lg:h-10" src="/icons/rain.svg" alt="rain" />
+            <span className="text-gray-200 font-bold lg:text-xl">
+              Probability of rain
+            </span>
           </div>
-          <span className="text-gray-100 font-bold">{`${
+          <span className="text-gray-100 font-bold lg:text-xl">{`${
             hour[rainHour.current].chance_of_rain
           }%`}</span>
         </div>
-        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between">
+        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/public/icons/wind.svg" alt="" />
-            <span className="text-gray-200 font-bold">Wind speed</span>
+            <img className="lg:w-10 lg:h-10" src="/icons/wind.svg" alt="wind" />
+            <span className="text-gray-200 font-bold lg:text-xl">
+              Wind speed
+            </span>
           </div>
-          <span className="text-gray-100 font-bold">
+          <span className="text-gray-100 font-bold lg:text-xl">
             {settings.kph
               ? `${Math.floor(wind_kph)} km/h`
               : `${Math.floor(wind_mph)} mph`}
           </span>
         </div>
-        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between">
+        <div className="w-full border border-transparent border-b-gray-600 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/public/icons/humidity.svg" alt="" />
-            <span className="text-gray-200 font-bold">Air humidity</span>
+            <img
+              className="lg:w-10 lg:h-10"
+              src="/icons/humidity.svg"
+              alt="humidity"
+            />
+            <span className="text-gray-200 font-bold lg:text-xl">
+              Air humidity
+            </span>
           </div>
-          <span className="text-gray-100 font-bold">{`${humidity}%`}</span>
+          <span className="text-gray-100 font-bold lg:text-xl">{`${humidity}%`}</span>
         </div>
-        <div className="w-full py-4 flex justify-between">
+        <div className="w-full py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/public/icons/uv.svg" alt="" />
-            <span className="text-gray-200 font-bold">UV index </span>
+            <img className="lg:w-10 lg:h-10" src="/icons/uv.svg" alt="uv" />
+            <span className="text-gray-200 font-bold lg:text-xl">
+              UV index{" "}
+            </span>
           </div>
-          <span className="text-gray-100 font-bold">{uv}</span>
+          <span className="text-gray-100 font-bold lg:text-xl">{uv}</span>
         </div>
       </div>
     );

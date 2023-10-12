@@ -10,6 +10,7 @@ import IconBtn from "../shared/IconBtn";
 import SettingsIcon from "../shared/SettingsIcon";
 import { SettingsContext } from "../context/SettingsContext";
 import { WeatherInfoList } from "./WeatherInfoList";
+import FutureForecast from "./FutureForecast";
 
 export default function WeatherDash() {
   const { settings } = useContext(SettingsContext);
@@ -19,7 +20,7 @@ export default function WeatherDash() {
   const [localTime, setLocalTime] = useState("");
   const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${
     import.meta.env.VITE_WEATHER_KEY
-  }&q=${city}`;
+  }&q=${city}&days=3`;
 
   let localTimeInterval;
 
@@ -120,6 +121,7 @@ export default function WeatherDash() {
               </div>
               <WeatherLocalTimeImg
                 weather={weather}
+                dayIndex={0}
                 folder={"/icons"}
                 imageStyling={"w-1/2 max-h-[200px] lg:max-h-[300px]"}
                 fileFormat={"svg"}
@@ -128,6 +130,7 @@ export default function WeatherDash() {
           </div>
           <WeatherLocalTimeImg
             weather={weather}
+            dayIndex={0}
             folder={"/bg"}
             imageStyling={"rounded-lg h-full w-full object-cover object-left"}
             fileFormat={"jpg"}
@@ -135,10 +138,13 @@ export default function WeatherDash() {
         </div>
       </div>
       <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-3 md:gap-5">
-        <div className="bg-gray-800 rounded-lg flex flex-col px-3 py-1">
+        <div className="bg-gray-800 rounded-lg px-3 py-1 lg:h-2/3">
           <WeatherInfoList weather={weather} localTime={localTime} />
         </div>
-        <div className="h-1/3 bg-gray-800 rounded-lg"></div>
+        <div className="bg-gray-800 rounded-lg flex justify-around p-3 lg:h-1/3 lg:items-center">
+          <FutureForecast weather={weather} dayIndex={1} />
+          <FutureForecast weather={weather} dayIndex={2} />
+        </div>
       </div>
     </main>
   );

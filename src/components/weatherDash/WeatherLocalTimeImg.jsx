@@ -14,7 +14,7 @@ export default function WeatherLocalTimeImg(props) {
     1237, 1249, 1252, 1255, 1258, 1261, 1264, 1279, 1282,
   ];
 
-  const { weather, imageStyling, folder, fileFormat } = props;
+  const { weather, dayIndex, imageStyling, folder, fileFormat } = props;
   const [weatherImage, setWeatherImage] = useState(null);
 
   function convertTime(timeString) {
@@ -34,10 +34,10 @@ export default function WeatherLocalTimeImg(props) {
   useEffect(() => {
     if (weather !== null) {
       const sunRiseTime = convertTime(
-        weather.forecast.forecastday[0].astro.sunrise
+        weather.forecast.forecastday[dayIndex].astro.sunrise
       );
       const sunSetTime = convertTime(
-        weather.forecast.forecastday[0].astro.sunset
+        weather.forecast.forecastday[dayIndex].astro.sunset
       );
       const currentTime = convertTime(
         new Date(weather.location.localtime).toLocaleTimeString([], {
@@ -48,7 +48,9 @@ export default function WeatherLocalTimeImg(props) {
 
       // https://www.weatherapi.com/docs/weather_conditions.json
       let weatherType = "";
-      const { code } = weather.current.condition;
+      const { code } =
+        weather.forecast.forecastday[dayIndex].hour[currentTime.hours]
+          .condition;
 
       if (clearWeatherCodes.includes(code)) {
         weatherType = "Clear";
