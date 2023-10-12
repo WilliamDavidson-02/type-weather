@@ -33,7 +33,6 @@ export default function WeatherDash() {
           response.data.location.localtime.split(" ")[1],
           response.data.location.localtime
         );
-        console.log(response.data);
       })
       .catch(() => navigate("/"));
   }, [city]);

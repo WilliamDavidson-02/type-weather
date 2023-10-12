@@ -26,7 +26,6 @@ export function WeatherInfoList(props) {
       } else {
         rainHour.current = hourIndex;
       }
-      console.log(rainHour.current);
     }
 
     return (
