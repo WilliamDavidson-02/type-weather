@@ -9,7 +9,7 @@ export default function Settings() {
   let navigate = useNavigate();
 
   return (
-    <div className="w-screen h-screen bg-gray-900 flex flex-col gap-10 items-center">
+    <div className="text-white w-screen h-screen bg-gray-900 flex flex-col gap-10 items-center">
       <div className="w-full relative max-w-[900px]">
         <div
           onClick={() => navigate(-1)}

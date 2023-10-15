@@ -6,3 +6,7 @@
   font-family: "Nunito", sans-serif;
   box-sizing: border-box;
 }
+
+body {
+  background: #13131a;
+}
