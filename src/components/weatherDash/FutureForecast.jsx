@@ -36,12 +36,12 @@ export default function FutureForecast(props) {
       setDayName(days[new Date(date).getDay() - 1]);
 
       setMaxTemp(
-        settings.celsius
+        settings?.celsius
           ? `${Math.floor(day.maxtemp_c)}ºc`
           : `${Math.floor(day.maxtemp_f)}ºf`
       );
       setMinTemp(
-        settings.celsius
+        settings?.celsius
           ? `${Math.floor(day.mintemp_c)}ºc`
           : `${Math.floor(day.mintemp_f)}ºf`
       );
@@ -51,7 +51,7 @@ export default function FutureForecast(props) {
   }, [weather]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center justify-between">
       <span className="font-bold lg:text-xl">
         {width < 1024 ? dayName.substring(0, 3) : dayName}
       </span>
@@ -59,7 +59,7 @@ export default function FutureForecast(props) {
         weather={weather}
         dayIndex={dayIndex}
         folder={"/icons"}
-        imageStyling={"w-1/2 lg:w-[200px] max-h-[200px] max-h-[300px]"}
+        imageStyling={"w-1/2 lg:w-[150px]"}
         fileFormat={"svg"}
       />
       {width >= 1024 && (

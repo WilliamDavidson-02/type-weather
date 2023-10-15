@@ -48,7 +48,7 @@ export default function WeatherDash() {
       .toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
       .split(" ");
 
-    const hour = settings.hour24 ? time.split(":", 1) : time12.split(":", 1);
+    const hour = settings?.hour24 ? time.split(":", 1) : time12.split(":", 1);
 
     // Using local time minutes because the weather apis local time is not correct in minutes.
     let updateMinutes = parseInt(
@@ -57,7 +57,7 @@ export default function WeatherDash() {
     );
     updateMinutes = updateMinutes <= 9 ? `0${updateMinutes}` : updateMinutes;
 
-    time = settings.hour24
+    time = settings?.hour24
       ? `${hour}:${updateMinutes}`
       : `${hour}:${updateMinutes} ${hourType}`;
 
@@ -72,7 +72,7 @@ export default function WeatherDash() {
   }
 
   return (
-    <main className="bg-gray-900 w-full h-full p-3 md:p-5 flex flex-col lg:flex-row gap-3 md:gap-5">
+    <main className="w-screen min-h-screen lg:h-screen text-white bg-gray-900 p-3 md:p-5 flex flex-col lg:flex-row gap-3 md:gap-5">
       <div className="lg:h-full w-full lg:w-1/2 bg-gray-800 rounded-lg p-3 flex flex-col gap-3">
         <div className="flex gap-3 max-w-full">
           <IconBtn icon={<LogoSm />} href={"/"} />
@@ -91,13 +91,13 @@ export default function WeatherDash() {
             <div className="w-full flex justify-between">
               <div className="w-1/2 flex flex-col justify-end">
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[120%]">
-                  {settings.celsius
+                  {settings?.celsius
                     ? `${Math.floor(weather?.current.temp_c)}ºc`
                     : `${Math.floor(weather?.current.temp_f)}ºf`}
                 </h1>
                 <TitleH3
                   title={`${
-                    settings.celsius
+                    settings?.celsius
                       ? `${Math.floor(
                           weather?.forecast.forecastday[0].day.mintemp_c
                         )}ºc`
@@ -105,7 +105,7 @@ export default function WeatherDash() {
                           weather?.forecast.forecastday[0].day.mintemp_f
                         )}ºf`
                   } / ${
-                    settings.celsius
+                    settings?.celsius
                       ? `${Math.floor(
                           weather?.forecast.forecastday[0].day.maxtemp_c
                         )}ºc`

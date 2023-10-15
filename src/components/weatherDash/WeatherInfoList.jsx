@@ -38,7 +38,7 @@ export function WeatherInfoList(props) {
             </span>
           </div>
           <span className="text-gray-100 font-bold lg:text-xl">
-            {settings.celsius
+            {settings?.celsius
               ? `${Math.floor(feelslike_c)}ºc`
               : `${Math.floor(feelslike_f)}ºf`}
           </span>
@@ -62,7 +62,7 @@ export function WeatherInfoList(props) {
             </span>
           </div>
           <span className="text-gray-100 font-bold lg:text-xl">
-            {settings.kph
+            {settings?.kph
               ? `${Math.floor(wind_kph)} km/h`
               : `${Math.floor(wind_mph)} mph`}
           </span>
